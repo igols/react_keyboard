@@ -1,23 +1,27 @@
 //import { extend } from 'cypress/types/lodash';
 import React from 'react';
 
-interface Props {
+interface State {
   message: string;
 }
 
-export class App extends React.Component<{}, Props> {
-  state: Props = {
+export class App extends React.Component<{}, State> {
+  state: State = {
     message: 'Nothing was pressed yet',
   };
 
-  handle = (event: KeyboardEvent) => {
+  handleButton = (event: KeyboardEvent) => {
     this.setState({
       message: `The last pressed key is [${event.key}]`,
     });
   };
 
   componentDidMount(): void {
-    document.addEventListener('keyup', this.handle);
+    document.addEventListener('keyup', this.handleButton);
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener('keyup', this.handleButton);
   }
 
   render() {
